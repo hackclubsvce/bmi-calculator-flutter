@@ -1,5 +1,11 @@
+import 'package:bmi_calculator/bottom_button.dart';
+import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/round_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bmi_calculator/constants.dart';
+
+enum Gender { male, female }
 
 class InputPage extends StatefulWidget {
   @override
@@ -7,33 +13,165 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender selectedGender;
   int height = 160;
+  int weight = 60;
+  int age = 16;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Center(child: Text('BMI CALCULATOR')),
+      appBar: AppBar(
+        title: Center(
+          child: Text('BMI CALCULATOR'),
         ),
-        body: Column(
-          children: <Widget>[
-            Row(
+      ),
+      body: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ResuableCard(
+                  onTap: () {
+                    setState(() {
+                      selectedGender = Gender.male;
+                    });
+                  },
+                  color: selectedGender == Gender.male
+                      ? Color(0xFF1D1E33)
+                      : Color(0xFF111389),
+                  cardChild: Column(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.mars,
+                        size: 80.0,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        'MALE',
+                        style: KLabelTextStyle,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ResuableCard(
+                  onTap: () {
+                    setState(() {
+                      selectedGender = Gender.male;
+                    });
+                  },
+                  color: selectedGender == Gender.female
+                      ? Color(0xFF1D1E33)
+                      : Color(0xFF111328),
+                  cardChild: Column(
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.venus,
+                        size: 80.0,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        'FEMALE',
+                        style: KLabelTextStyle,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFF111328),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'HEIGHTS',
+                    style: KLabelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        '$height',
+                        style: kNumberTextStyle,
+                      ),
+                      Text('cm'),
+                    ],
+                  ),
+                  Slider(
+                      value: height.toDouble(),
+                      min: 120.0,
+                      max: 220.0,
+                      onChanged: (double newValue) {
+                        setState(() {
+                          height = newValue.round();
+                        });
+                      })
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Expanded(
+            child: Row(
               children: <Widget>[
                 Expanded(
                   child: Container(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.mars,
-                          size: 80.0,
+                        Text(
+                          'WEIGHTS',
+                          style: KLabelTextStyle,
                         ),
-                        SizedBox(
-                          height: 10.0,
+                        Text(
+                          '$weight',
+                          style: kNumberTextStyle,
                         ),
-                        Text('MALE')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            )
+                          ],
+                        )
                       ],
                     ),
                     decoration: BoxDecoration(
-                      color: Color(0xFF090C55),
+                      color: Color(0xFF111328),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -44,61 +182,59 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: Container(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.venus,
-                          size: 80.0,
+                        Text(
+                          'AGE',
+                          style: KLabelTextStyle,
                         ),
-                        SizedBox(
-                          height: 10.0,
+                        Text(
+                          '$age',
+                          style: kNumberTextStyle,
                         ),
-                        Text('FEMALE')
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 5.0,
+                            ),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                            )
+                          ],
+                        )
                       ],
                     ),
                     decoration: BoxDecoration(
-                        color: Color(0xFF090C55),
-                        borderRadius: BorderRadius.circular(10.0)),
+                      color: Color(0xFF111328),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
               ],
             ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFF090C55),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('HEIGHTS'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '183',
-                          style: TextStyle(fontSize: 50.0),
-                        ),
-                        Text('cm'),
-                      ],
-                    ),
-                    Slider(
-                        value: height.toDouble(),
-                        min: 120.0,
-                        max: 220.0,
-                        onChanged: (double newValue) {
-                          height = newValue.round();
-                          print(height);
-                        })
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-                child: Row(
-              children: <Widget>[],
-            ))
-          ],
-        ));
+          ),
+          BottomButton(
+            text: 'CALCULATE',
+            onTap: () {
+              print('Bottom Button is pressed');
+            },
+          )
+        ],
+      ),
+    );
   }
 }
